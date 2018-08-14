@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.MagicLeap;
 
 [System.Serializable]
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private float nextFire = 0.5F;
     private float myTime = 0.0F;
     private AudioSource audioSource;
+
+    // Magic Leap
     private MLInputController mlController;
     private bool isBumperTapped = false;
 
@@ -121,7 +124,12 @@ public class PlayerController : MonoBehaviour
             Vector3 forward = Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, Vector3.up));
             Vector3 right = Vector3.Normalize(Vector3.ProjectOnPlane(transform.right, Vector3.up));
             Vector3 force = Vector3.Normalize((X * right) + (Y * forward));
-            rb.transform.position += force * Time.deltaTime * speed;
+            rb.transform.position += force * Time.deltaTime * speed / 2;
+
+            rb.position = new Vector3(
+                Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax), 
+                0.0f, 
+                Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)); 
         }
 
     }

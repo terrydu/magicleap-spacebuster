@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.MagicLeap;
 
 public class GameController : MonoBehaviour
 {
@@ -19,7 +20,47 @@ public class GameController : MonoBehaviour
     private int score;
     private bool gameOver;
     private bool restart;
+    private AudioSource audioSource;
 
+    // Magic Leap
+    private MLInputController mlController;
+
+    /*
+     * Setup the Magic Leap controller input.
+     */
+    void Awake() {
+        MLInput.Start();
+        MLInput.OnControllerButtonDown += OnButtonDown;
+        MLInput.OnControllerButtonUp += OnButtonUp;
+        mlController = MLInput.GetController(MLInput.Hand.Left);
+    }
+
+    /*
+     * Stop listening for Magic Leap input.
+     */
+    void OnDestroy () {
+        MLInput.OnControllerButtonDown -= OnButtonDown;
+        MLInput.OnControllerButtonUp -= OnButtonUp;
+        MLInput.Stop();
+    }
+
+    /*
+     * Listen for the Magic Leap bumper being pressed ("tapped").
+     */
+    void OnButtonDown(byte controller_id, MLInputControllerButton button) {
+        if (button == MLInputControllerButton.Bumper) {
+        }
+    }
+
+    /*
+     * Listen for letting go of the Magic Leap controller bumper button.
+     */
+    void OnButtonUp(byte controller_id, MLInputControllerButton button) {
+        if (button == MLInputControllerButton.Bumper) {
+            //Application.LoadLevel(Application.loadedLevel);
+            //SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
     void Start()
     {
         gameOver = false;
@@ -28,6 +69,10 @@ public class GameController : MonoBehaviour
         gameOverText.text = "";
         score = 0;
         UpdateScore();
+
+        audioSource = GetComponent<AudioSource>();
+        audioSource.Play();
+
         StartCoroutine(SpawnWaves());
     }
 

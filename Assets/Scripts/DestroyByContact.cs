@@ -29,7 +29,7 @@ public class DestroyByContact : MonoBehaviour {
             return;
         }
         Destroy(other.gameObject);  // Destroy the player or the laser shot.
-        Destroy(gameObject);        // Destory the asteroid.
+        Destroy(gameObject);        // Destroy the asteroid.
 
         Instantiate(explosion, transform.position, transform.rotation);
         if (other.tag == "Player")
