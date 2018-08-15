@@ -57,8 +57,7 @@ public class GameController : MonoBehaviour
      */
     void OnButtonUp(byte controller_id, MLInputControllerButton button) {
         if (button == MLInputControllerButton.Bumper) {
-            //Application.LoadLevel(Application.loadedLevel);
-            //SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         }
     }
     void Start()

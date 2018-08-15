@@ -115,8 +115,6 @@ public class PlayerController : MonoBehaviour
             0.0f, 
             Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax));
 
-        rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
-
         // Then try Magic Leap input.
         if (mlController.Touch1PosAndForce.z > 0.0f) {
             float X = mlController.Touch1PosAndForce.x;
@@ -124,6 +122,8 @@ public class PlayerController : MonoBehaviour
             Vector3 forward = Vector3.Normalize(Vector3.ProjectOnPlane(transform.forward, Vector3.up));
             Vector3 right = Vector3.Normalize(Vector3.ProjectOnPlane(transform.right, Vector3.up));
             Vector3 force = Vector3.Normalize((X * right) + (Y * forward));
+
+            // TODO: Change this to rb.velocity and rb.position=
             rb.transform.position += force * Time.deltaTime * speed / 2;
 
             rb.position = new Vector3(
@@ -132,6 +132,9 @@ public class PlayerController : MonoBehaviour
                 Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)); 
         }
 
+        // Regardless of keyboard or controller input (or both), tilt based on X-axis velocity.
+        Debug.Log("rb.velocity.x: " + rb.velocity.x + "; total: " + (rb.velocity.x * -tilt));
+        rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
     }
 
 }

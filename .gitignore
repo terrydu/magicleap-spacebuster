@@ -38,3 +38,5 @@ sysinfo.txt
 # Misc
 WinStandalone/
 .vscode/
+.out/
+BuildMagicLeap/
